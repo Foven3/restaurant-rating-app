@@ -1,12 +1,16 @@
 import streamlit as st
 import numpy as np
 import joblib
+import plotly.graph_objects as go
 
+# ✅ Page setup
 st.set_page_config(page_title="Restaurant Rating Predictor", page_icon="🍴", layout="wide")
 
+# ✅ Load model + scaler
 scalar = joblib.load("scalar.pkl")
 model = joblib.load("mlmodel.pkl")
 
+# 🎨 Page styling
 st.markdown("""
     <style>
         .main {
@@ -29,10 +33,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# 🎯 Title
 st.markdown("<h1 style='text-align: center;'>🍴 Restaurant Rating Predictions App</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; font-size:18px;'>Enter restaurant details below and predict customer rating 📊</p>", unsafe_allow_html=True)
 st.divider()
 
+# 📊 Input form
 with st.form("prediction_form"):
     col1, col2 = st.columns(2)
 
@@ -48,14 +54,14 @@ with st.form("prediction_form"):
 
 st.divider()
 
+# 🔎 Prediction & Visualization
 if predictButton:
     bookingStatus = 1 if tableBooking == "Yes" else 0
     deliveryStatus = 1 if hasOnlineDelivery == "Yes" else 0
     X = scalar.transform([[averageCost, bookingStatus, deliveryStatus, priceRange]])
-
     prediction = model.predict(X)[0]
 
-    # 🎉 Fancy Output Card
+    # 🎉 Prediction result
     st.markdown("### 📝 Prediction Result")
     if prediction < 2.5: 
         st.error("😞 Poor — Customers likely won’t be happy.")
@@ -72,3 +78,19 @@ if predictButton:
     else:
         st.success("🤩 Excellent — Highly recommended!")
         st.balloons()
+
+    # 📊 Plotly interactive bar chart
+    fig = go.Figure(go.Bar(
+        x=['Predicted Rating'],
+        y=[prediction],
+        marker_color='#ff6b6b',
+        text=[f"{prediction:.2f}"],
+        textposition='auto'
+    ))
+    fig.update_layout(
+        yaxis=dict(range=[0,5]),
+        title="Predicted Customer Rating",
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+    )
+    st.plotly_chart(fig)
