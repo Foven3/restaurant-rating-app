@@ -46,3 +46,4 @@ if predictButton:
     else:
         st.markdown("<h2 style='text-align: center; color: purple;'>🤩 Excellent</h2>", unsafe_allow_html=True)
         st.balloons()
+  
