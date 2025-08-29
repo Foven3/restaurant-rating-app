@@ -3,13 +3,19 @@ from pages import home, prediction, about
 
 st.set_page_config(page_title="Restaurant Rating Predictor", page_icon="🍴", layout="wide")
 
-# Sidebar for navigation
-st.title("Navigation")
-page = st.radio("Go to", ["Home", "Prediction", "About"])
+# Main navigation inside the app (not sidebar)
+st.title("🍴 Restaurant Rating Predictor")
 
-if page == "Home":
+# Use buttons or tabs for navigation
+nav = st.radio(
+    "Navigation",
+    ["Home", "Prediction", "About"],
+    horizontal=True   # 👈 makes it appear across the top
+)
+
+if nav == "Home":
     home.show()
-elif page == "Prediction":
+elif nav == "Prediction":
     prediction.show()
-elif page == "About":
+elif nav == "About":
     about.show()
