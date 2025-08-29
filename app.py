@@ -1,5 +1,5 @@
 import streamlit as st
-from pages import home, prediction, about
+from my_pages import home, prediction, about
 
 st.set_page_config(page_title="Restaurant Rating Predictor", page_icon="🍴", layout="wide")
 
