@@ -31,6 +31,28 @@ def show():
         st.markdown("### 📝 Prediction Result")
         st.success(f"Predicted Rating: {prediction:.2f}")
 
+        # --- Rating categories ---
+        if prediction <= 2.5:
+            rating_labelP = "❌ Poor"
+            st.error(rating_labelP)
+            st.snow()
+        elif prediction <= 3.5:
+            rating_labelA = "😕 Average"
+            st.warning(rating_labelA)
+            st.snow()
+        elif prediction <= 4.0:
+            rating_labelG = "🙂 Good"
+            st.info(rating_labelG)
+            st.balloons()
+        elif prediction <= 4.5:
+            rating_labelVG = "😃 Very Good"
+            st.success(rating_labelVG)
+            st.balloons()
+        else:
+            rating_labelE = "🌟 Excellent"
+            st.success(rating_labelE)
+            st.balloons()
+
         # Plotly chart
         fig = go.Figure(go.Bar(
             x=['Predicted Rating'],
